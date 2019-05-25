@@ -1,0 +1,34 @@
+<template>
+  <h1>Purrr</h1>
+
+  <form role="form" submit.delegate="onKitten()">
+    <select name="kitten-from" id="kitten-from" value.bind="inputKittenFrom">
+      <option repeat.for="player of players" value.bind="player">${player}</option>
+    </select>
+    <select name="kitten-to" id="kitten-to" value.bind="inputKittenTo">
+      <option repeat.for="player of players" value.bind="player">${player}</option>
+    </select>
+    <button type="submit">Meow!</button>
+  </form>
+
+  <section>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Has Kitten</th>
+          <th>Got Kitten</th>
+          <th>Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr repeat.for="player of ranking">
+          <td>${player.name}</td>
+          <td>${player.hasKitten}</td>
+          <td>${player.gotKitten}</td>
+          <td>${player.difference}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</template>

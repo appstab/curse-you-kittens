@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "kittenmeter"
+  },
+  "targets": {
+    "kittenmeter": {
+      "hosting": {
+        "gatitos": [
+          "gatitosResources"
+        ]
+      }
+    }
+  }
+}

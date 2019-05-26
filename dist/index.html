@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Aurelia</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body aurelia-app="main">
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-firestore.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyDs4jxcoK0JgBdcLQGSQ1sad3r1EgdNJqE",
+      authDomain: "kittenmeter.firebaseapp.com",
+      databaseURL: "https://kittenmeter.firebaseio.com",
+      projectId: "kittenmeter",
+      storageBucket: "kittenmeter.appspot.com",
+      messagingSenderId: "230415865500",
+      appId: "1:230415865500:web:8be43addc2ec8bdd"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+  <script src="scripts/vendor-bundle.js" data-main="aurelia-bootstrapper"></script>
+</body>
+
+</html>

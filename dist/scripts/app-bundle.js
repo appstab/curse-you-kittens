@@ -89,7 +89,19 @@ define('app',['exports', 'aurelia-framework'], function (exports, _aureliaFramew
       this.ranking = [];
       this.inputKittenFrom = undefined;
       this.inputKittenTo = undefined;
+      this.newPlayer = undefined;
       this.db = firebase.firestore();
+
+      this.onNewPlayer = function () {
+        if (!_this.newPlayer) {
+          return;
+        }
+
+        _this.db.collection('players').doc(_this.newPlayer).set({ hasKitten: 1, gotKitten: 0 }).then(function (res) {
+          _this.players.push(_this.newPlayer);
+          _this.newPlayer = undefined;
+        });
+      };
 
       this.onKitten = function () {
         var playerFrom = _this.ranking.find(function (i) {
@@ -140,7 +152,7 @@ define('app',['exports', 'aurelia-framework'], function (exports, _aureliaFramew
       };
 
       this.message = 'Hello World!';
-      this.players = ['JB', 'Alex', 'Paul', 'Dave', 'Domi', 'Angela'];
+      this.players = [];
     }
 
     App.prototype.attached = function attached() {
@@ -150,6 +162,7 @@ define('app',['exports', 'aurelia-framework'], function (exports, _aureliaFramew
         querySnapshot.forEach(function (doc) {
           var playerStats = doc.data();
           _this2.ranking.push(new PlayerRank(doc.id, playerStats.hasKitten, playerStats.gotKitten));
+          _this2.players.push(doc.id);
           _this2.sortRanking();
         });
       });
@@ -230,5 +243,5 @@ define('resources/index',["exports"], function (exports) {
   exports.configure = configure;
   function configure(config) {}
 });
-define('text!app.html', ['module'], function(module) { module.exports = "<template><h1>Purrr</h1><form role=\"form\" submit.delegate=\"onKitten()\"><select name=\"kitten-from\" id=\"kitten-from\" value.bind=\"inputKittenFrom\"><option repeat.for=\"player of players\" value.bind=\"player\">${player}</option></select> <select name=\"kitten-to\" id=\"kitten-to\" value.bind=\"inputKittenTo\"><option repeat.for=\"player of players\" value.bind=\"player\">${player}</option></select> <button type=\"submit\">Meow!</button></form><section><table><thead><tr><th>Name</th><th>Has Kitten</th><th>Got Kitten</th><th>Points</th></tr></thead><tbody><tr repeat.for=\"player of ranking\"><td>${player.name}</td><td>${player.hasKitten}</td><td>${player.gotKitten}</td><td>${player.difference}</td></tr></tbody></table></section></template>"; });
+define('text!app.html', ['module'], function(module) { module.exports = "<template><h1>Purrr</h1><div><input type=\"text\" name=\"newPlayer\" id=\"newPlayer\" value.bind=\"newPlayer\"> <button type=\"button\" click.delegate=\"onNewPlayer()\">Add Player</button></div><br><form role=\"form\" submit.delegate=\"onKitten()\"><select name=\"kitten-from\" id=\"kitten-from\" value.bind=\"inputKittenFrom\"><option value=\"undefined\">Someone</option><option repeat.for=\"player of players\" value.bind=\"player\">${player}</option></select> <b>has kittened</b> <select name=\"kitten-to\" id=\"kitten-to\" value.bind=\"inputKittenTo\"><option value=\"undefined\">Someone else</option><option repeat.for=\"player of players\" value.bind=\"player\">${player}</option></select> <button type=\"submit\">Meow!</button></form><br><section><table><thead><tr><th>Name</th><th>Has Kitten</th><th>Got Kitten</th><th>Points</th></tr></thead><tbody><tr repeat.for=\"player of ranking\"><td>${player.name}</td><td>${player.hasKitten}</td><td>${player.gotKitten}</td><td>${player.difference}</td></tr></tbody></table></section></template>"; });
 //# sourceMappingURL=app-bundle.js.map

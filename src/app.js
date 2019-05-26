@@ -18,11 +18,12 @@ export class App {
   ranking = [];
   inputKittenFrom = undefined;
   inputKittenTo = undefined;
+  newPlayer = undefined;
   db = firebase.firestore();
 
   constructor() {
     this.message = 'Hello World!';
-    this.players = ['JB', 'Alex', 'Paul', 'Dave', 'Domi', 'Angela'];
+    this.players = [];
   }
 
   attached() {
@@ -30,6 +31,7 @@ export class App {
       querySnapshot.forEach(doc => {
         const playerStats = doc.data();
         this.ranking.push(new PlayerRank(doc.id, playerStats.hasKitten, playerStats.gotKitten));
+        this.players.push(doc.id);
         this.sortRanking();
       });
     });
@@ -37,6 +39,16 @@ export class App {
 
   populate() {
     this.players.forEach(player => this.ranking.push(new PlayerRank(player, 0, 0)));
+  }
+
+  onNewPlayer = () => {
+    if (!this.newPlayer) { return; }
+
+    this.db.collection('players').doc(this.newPlayer)
+      .set({ hasKitten: 0, gotKitten: 0 }).then(res => {
+        this.players.push(this.newPlayer);
+        this.newPlayer = undefined;
+      });
   }
 
   onKitten = () => {

@@ -1,16 +1,26 @@
 <template>
   <h1>Purrr</h1>
 
+  <!-- <form role="form" submit.delegate="onNewPlayer()"> -->
+  <div>
+    <input type="text" name="newPlayer" id="newPlayer" value.bind="newPlayer">
+    <button type="button" click.delegate="onNewPlayer()">Add Player</button>
+  </div>
+  <!-- </form> -->
+  <br>
   <form role="form" submit.delegate="onKitten()">
     <select name="kitten-from" id="kitten-from" value.bind="inputKittenFrom">
+      <option value="undefined">Someone</option>
       <option repeat.for="player of players" value.bind="player">${player}</option>
     </select>
+    <b>has kittened</b>
     <select name="kitten-to" id="kitten-to" value.bind="inputKittenTo">
+      <option value="undefined">Someone else</option>
       <option repeat.for="player of players" value.bind="player">${player}</option>
     </select>
     <button type="submit">Meow!</button>
   </form>
-
+  <br>
   <section>
     <table>
       <thead>
